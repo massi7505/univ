@@ -96,7 +96,7 @@ export default async function AdminDashboard() {
           {stats.recentViews.length === 0 && (
             <div className="px-6 py-8 text-center text-slate-400 text-sm">No activity yet</div>
           )}
-          {stats.recentViews.map((view, i) => (
+          {stats.recentViews.map((view: any, i: number) => (
             <div key={i} className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50 transition">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-600">
