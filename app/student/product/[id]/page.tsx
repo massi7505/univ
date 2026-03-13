@@ -1,18 +1,20 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, MapPin, FlaskConical, AlertTriangle, Building2, DoorOpen, Archive, Layers, Package } from 'lucide-react'
+import { ArrowLeft, MapPin, FlaskConical, AlertTriangle, Building2, DoorOpen, Archive, Layers, Package, CheckCircle, Thermometer, Snowflake } from 'lucide-react'
 
 interface Product {
   id: string; name: string; cas: string | null; brand: string | null
   molarMass: number | null; stock: string | null
   packagingValue: number | null; packagingUnit: string | null
-  toxic: boolean; cmr: boolean; purityPercent: number | null
-  physicalState: string | null; comment: string | null
-  globalStockType: string | null; active: boolean
+  toxic: boolean; cmr: boolean
+  explosive: boolean; flammable: boolean; oxidizing: boolean; gasPressure: boolean
+  corrosive: boolean; harmfulIrritant: boolean; healthHazard: boolean; envHazard: boolean
+  purityPercent: number | null; physicalState: string | null
+  comment: string | null; globalStockType: string | null; active: boolean
   shelf: {
     id: string; name: string
-    cabinet: { id: string; name: string; room: { id: string; name: string; building: { id: string; name: string } } }
+    cabinet: { id: string; name: string; type: string; room: { id: string; name: string; building: { id: string; name: string } } }
   }
 }
 
@@ -21,12 +23,34 @@ const physicalStatesFr: Record<string, string> = {
   powder: 'poudre', crystal: 'cristal', solution: 'solution',
 }
 
+const HAZARDS: { field: keyof Product; label: string; cls: string }[] = [
+  { field: 'explosive',       label: 'Explosif',                    cls: 'badge-orange' },
+  { field: 'flammable',       label: 'Inflammable',                 cls: 'badge-red'    },
+  { field: 'oxidizing',       label: 'Comburant',                   cls: 'badge-amber'  },
+  { field: 'gasPressure',     label: 'Gaz sous pression',           cls: 'badge-sky'    },
+  { field: 'corrosive',       label: 'Corrosif',                    cls: 'badge-purple' },
+  { field: 'toxic',           label: 'Toxique',                     cls: 'badge-amber'  },
+  { field: 'harmfulIrritant', label: 'Nocif / Irritant',            cls: 'badge-orange' },
+  { field: 'healthHazard',    label: 'Danger pour la santé',        cls: 'badge-red'    },
+  { field: 'cmr',             label: 'CMR',                         cls: 'badge-red'    },
+  { field: 'envHazard',       label: "Danger pour l'environnement", cls: 'badge-teal'   },
+]
+
+function getCabinetIcon(type: string) {
+  if (type === 'FRIDGE') return { Icon: Thermometer, color: 'bg-blue-100 text-blue-600', label: 'Frigo' }
+  if (type === 'FREEZER') return { Icon: Snowflake, color: 'bg-indigo-100 text-indigo-600', label: 'Congélateur' }
+  return { Icon: Archive, color: 'bg-emerald-100 text-emerald-600', label: 'Armoire' }
+}
+
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [alreadyBorrowed, setAlreadyBorrowed] = useState(false)
+  const [taking, setTaking] = useState(false)
+  const [takeSuccess, setTakeSuccess] = useState(false)
 
   useEffect(() => {
     fetch(`/api/products/${id}`)
@@ -35,6 +59,29 @@ export default function ProductDetailPage() {
       .catch(() => setError('Produit introuvable'))
       .finally(() => setLoading(false))
   }, [id])
+
+  useEffect(() => {
+    fetch('/api/loans')
+      .then(r => r.json())
+      .then((data: { productId: string }[]) => {
+        if (Array.isArray(data)) setAlreadyBorrowed(data.some(l => l.productId === id))
+      })
+      .catch(() => {})
+  }, [id])
+
+  async function handleTake() {
+    setTaking(true)
+    const res = await fetch('/api/loans', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId: id }),
+    })
+    if (res.ok) {
+      setAlreadyBorrowed(true)
+      setTakeSuccess(true)
+    }
+    setTaking(false)
+  }
 
   if (loading) return (
     <div className="flex items-center justify-center py-24">
@@ -51,10 +98,9 @@ export default function ProductDetailPage() {
   )
 
   const location = product.shelf.cabinet.room
-  const dangerLabels = [
-    product.toxic && 'toxique',
-    product.cmr && 'CMR (cancérogène, mutagène ou reprotoxique)',
-  ].filter(Boolean).join(' et ')
+  const activeHazards = HAZARDS.filter(h => product[h.field])
+  const cabinetCfg = getCabinetIcon(product.shelf.cabinet.type)
+  const CabIcon = cabinetCfg.Icon
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -69,30 +115,60 @@ export default function ProductDetailPage() {
             <FlaskConical size={22} className="text-sky-600" />
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-2 flex-wrap mb-1">
-              <h1 className="text-xl font-bold text-slate-800">{product.name}</h1>
-              {product.toxic && <span className="badge badge-amber">⚠ Toxique</span>}
-              {product.cmr && <span className="badge badge-red">⚠ CMR</span>}
-              {!product.active && <span className="badge badge-slate">Inactif</span>}
-            </div>
-            {product.cas && (
-              <p className="text-sm font-mono text-slate-500">CAS : {product.cas}</p>
+            <h1 className="text-xl font-bold text-slate-800 mb-1">{product.name}</h1>
+            {product.cas && <p className="text-sm font-mono text-slate-500">CAS : {product.cas}</p>}
+            {activeHazards.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {activeHazards.map(h => (
+                  <span key={h.field} className={h.cls}>{h.label}</span>
+                ))}
+              </div>
             )}
+            {!product.active && <span className="badge badge-slate mt-2">Inactif</span>}
           </div>
         </div>
       </div>
 
       {/* Danger warning */}
-      {(product.toxic || product.cmr) && (
+      {activeHazards.length > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 flex items-start gap-3">
           <AlertTriangle size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-amber-800">
-            <strong>Avertissement de sécurité :</strong> Ce produit est classifié comme{' '}
-            {dangerLabels}.
+            <strong>Avertissement de sécurité :</strong> Ce produit présente des risques ({activeHazards.map(h => h.label).join(', ')}).
             Respectez tous les protocoles de sécurité et portez les EPI appropriés.
           </div>
         </div>
       )}
+
+      {/* Emprunt */}
+      <div className="card p-4 sm:p-6 mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Package size={16} className="text-sky-600" />
+          <h2 className="font-semibold text-slate-800">Emprunt</h2>
+        </div>
+        {takeSuccess && (
+          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 text-sm text-emerald-700 mb-3">
+            <CheckCircle size={15} />
+            Produit enregistré comme emprunté. Pensez à le remettre à sa place !
+          </div>
+        )}
+        {alreadyBorrowed ? (
+          <div className="flex items-center gap-2 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+            <AlertTriangle size={15} />
+            Vous avez déjà emprunté ce produit.{' '}
+            <button onClick={() => router.push('/student/loans')} className="underline font-medium">Voir mes emprunts</button>
+          </div>
+        ) : (
+          <button
+            onClick={handleTake}
+            disabled={taking || !product.active}
+            className="btn-primary w-full justify-center"
+          >
+            <Package size={15} />
+            {taking ? 'Enregistrement…' : 'Prendre ce produit'}
+          </button>
+        )}
+      </div>
 
       {/* Location */}
       <div className="card p-4 sm:p-6 mb-4">
@@ -102,17 +178,14 @@ export default function ProductDetailPage() {
         </div>
         <div className="space-y-3">
           {[
-            { icon: Building2, label: 'Bâtiment', value: location.building.name, color: 'sky' },
-            { icon: DoorOpen, label: 'Salle', value: location.name, color: 'violet' },
-            { icon: Archive, label: 'Armoire', value: product.shelf.cabinet.name, color: 'emerald' },
-            { icon: Layers, label: 'Étagère', value: product.shelf.name, color: 'amber' },
+            { Icon: Building2, label: 'Bâtiment', value: location.building.name, colorCls: 'bg-sky-100 text-sky-600' },
+            { Icon: DoorOpen,   label: 'Salle',    value: location.name,           colorCls: 'bg-violet-100 text-violet-600' },
+            { Icon: CabIcon,    label: cabinetCfg.label, value: product.shelf.cabinet.name, colorCls: cabinetCfg.color },
+            { Icon: Layers,     label: 'Étagère',  value: product.shelf.name,      colorCls: 'bg-amber-100 text-amber-600' },
           ].map((step, i) => (
             <div key={i} className="flex items-center gap-3">
-              {i > 0 && <div className="w-px h-3 bg-slate-200 ml-4 -mt-3 absolute" />}
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                { sky: 'bg-sky-100 text-sky-600', violet: 'bg-violet-100 text-violet-600', emerald: 'bg-emerald-100 text-emerald-600', amber: 'bg-amber-100 text-amber-600' }[step.color]
-              }`}>
-                <step.icon size={15} />
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${step.colorCls}`}>
+                <step.Icon size={15} />
               </div>
               <div>
                 <div className="text-xs text-slate-400 font-medium uppercase tracking-wide">{step.label}</div>
