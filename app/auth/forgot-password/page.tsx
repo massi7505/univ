@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
     })
     setLoading(false)
     if (res.ok) setStep('otp')
-    else { const d = await res.json(); setError(d.error || 'Error') }
+    else { const d = await res.json(); setError(d.error || 'Erreur') }
   }
 
   async function resetPassword(e: React.FormEvent) {
@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
     })
     setLoading(false)
     if (res.ok) setStep('done')
-    else { const d = await res.json(); setError(d.error || 'Invalid OTP') }
+    else { const d = await res.json(); setError(d.error || 'Code OTP invalide') }
   }
 
   return (
@@ -41,18 +41,18 @@ export default function ForgotPasswordPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-500 mb-4 shadow-lg shadow-sky-500/30">
             <FlaskConical size={28} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white">UnivBase</h1>
+          <h1 className="text-2xl font-bold text-white">SEISAD</h1>
         </div>
 
-        <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-8">
+        <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-5 sm:p-8">
           {step === 'done' ? (
             <div className="text-center py-4">
               <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle size={28} className="text-emerald-600" />
               </div>
-              <h2 className="text-lg font-semibold text-slate-800 mb-2">Password Reset!</h2>
-              <p className="text-sm text-slate-500 mb-6">Your password has been updated successfully.</p>
-              <Link href="/auth/login" className="btn-primary w-full justify-center py-2.5">Sign in now</Link>
+              <h2 className="text-lg font-semibold text-slate-800 mb-2">Mot de passe réinitialisé !</h2>
+              <p className="text-sm text-slate-500 mb-6">Votre mot de passe a été mis à jour avec succès.</p>
+              <Link href="/auth/login" className="btn-primary w-full justify-center py-2.5">Se connecter</Link>
             </div>
           ) : (
             <>
@@ -72,16 +72,16 @@ export default function ForgotPasswordPage() {
 
               {step === 'email' && (
                 <>
-                  <h2 className="text-lg font-semibold text-slate-800 mb-1">Reset Password</h2>
-                  <p className="text-sm text-slate-500 mb-5">Enter your email to receive a one-time code.</p>
+                  <h2 className="text-lg font-semibold text-slate-800 mb-1">Réinitialiser le mot de passe</h2>
+                  <p className="text-sm text-slate-500 mb-5">Entrez votre e-mail pour recevoir un code unique.</p>
                   <form onSubmit={sendOtp} className="space-y-4">
                     <div>
-                      <label className="label">Email address</label>
+                      <label className="label">Adresse e-mail</label>
                       <input className="input" type="email" required autoFocus value={email}
-                        onChange={e => setEmail(e.target.value)} placeholder="you@university.edu" />
+                        onChange={e => setEmail(e.target.value)} placeholder="vous@universite.fr" />
                     </div>
                     <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-2.5">
-                      <Mail size={15} />{loading ? 'Sending…' : 'Send OTP Code'}
+                      <Mail size={15} />{loading ? 'Envoi…' : 'Envoyer le code OTP'}
                     </button>
                   </form>
                 </>
@@ -89,28 +89,28 @@ export default function ForgotPasswordPage() {
 
               {step === 'otp' && (
                 <>
-                  <h2 className="text-lg font-semibold text-slate-800 mb-1">Enter OTP</h2>
+                  <h2 className="text-lg font-semibold text-slate-800 mb-1">Saisir le code OTP</h2>
                   <p className="text-sm text-slate-500 mb-5">
-                    We sent a 6-digit code to <strong>{email}</strong>. Enter it below.
+                    Un code à 6 chiffres a été envoyé à <strong>{email}</strong>. Saisissez-le ci-dessous.
                   </p>
                   <form onSubmit={resetPassword} className="space-y-4">
                     <div>
-                      <label className="label">OTP Code</label>
+                      <label className="label">Code OTP</label>
                       <input className="input text-center text-2xl tracking-widest font-mono" required maxLength={6}
                         value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                         placeholder="000000" autoFocus />
                     </div>
                     <div>
-                      <label className="label">New Password</label>
+                      <label className="label">Nouveau mot de passe</label>
                       <input className="input" type="password" required minLength={6}
-                        value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Min. 6 characters" />
+                        value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Min. 6 caractères" />
                     </div>
                     <button type="submit" disabled={loading || otp.length !== 6} className="btn-primary w-full justify-center py-2.5">
-                      <KeyRound size={15} />{loading ? 'Resetting…' : 'Reset Password'}
+                      <KeyRound size={15} />{loading ? 'Réinitialisation…' : 'Réinitialiser'}
                     </button>
                     <button type="button" onClick={() => { setStep('email'); setOtp(''); setError('') }}
                       className="btn-ghost w-full justify-center text-xs">
-                      <ArrowLeft size={13} />Use a different email
+                      <ArrowLeft size={13} />Utiliser un autre e-mail
                     </button>
                   </form>
                 </>
@@ -120,7 +120,7 @@ export default function ForgotPasswordPage() {
 
           <p className="text-center text-sm text-slate-500 mt-6">
             <Link href="/auth/login" className="text-sky-600 hover:underline flex items-center justify-center gap-1">
-              <ArrowLeft size={13} />Back to login
+              <ArrowLeft size={13} />Retour à la connexion
             </Link>
           </p>
         </div>
@@ -128,4 +128,3 @@ export default function ForgotPasswordPage() {
     </div>
   )
 }
-

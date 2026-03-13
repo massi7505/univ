@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
   return new NextResponse(buffer, {
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': `attachment; filename="UnivBase-export-${new Date().toISOString().split('T')[0]}.xlsx"`,
+      'Content-Disposition': `attachment; filename="SEISAD-export-${new Date().toISOString().split('T')[0]}.xlsx"`,
     },
   })
 }

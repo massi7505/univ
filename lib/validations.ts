@@ -36,6 +36,14 @@ export const ProductSchema = z.object({
   brand: z.string().optional().nullable(),
   toxic: z.boolean().default(false),
   cmr: z.boolean().default(false),
+  explosive:       z.boolean().default(false),
+  flammable:       z.boolean().default(false),
+  oxidizing:       z.boolean().default(false),
+  gasPressure:     z.boolean().default(false),
+  corrosive:       z.boolean().default(false),
+  harmfulIrritant: z.boolean().default(false),
+  healthHazard:    z.boolean().default(false),
+  envHazard:       z.boolean().default(false),
   purityPercent: z.number().min(0).max(1).optional().nullable(),
   physicalState: z.string().optional().nullable(),
   comment: z.string().optional().nullable(),
@@ -56,6 +64,7 @@ export const RoomSchema = z.object({
 export const CabinetSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   roomId: z.string().min(1, 'Room is required'),
+  type: z.enum(['CABINET', 'FRIDGE', 'FREEZER']).default('CABINET'),
 })
 
 export const ShelfSchema = z.object({

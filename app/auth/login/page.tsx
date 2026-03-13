@@ -20,7 +20,7 @@ export default function LoginPage() {
     if (res.ok) {
       router.push(data.user.role === 'ADMIN' ? '/admin' : '/student')
     } else {
-      setError(data.error || 'Login failed')
+      setError(data.error || 'Échec de la connexion')
       setLoading(false)
     }
   }
@@ -33,13 +33,13 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-500 mb-4 shadow-lg shadow-sky-500/30">
             <FlaskConical size={28} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white">UnivBase</h1>
-          <p className="text-slate-400 text-sm mt-1">Chemical Inventory Management</p>
+          <h1 className="text-2xl font-bold text-white">SEISAD</h1>
+          <p className="text-slate-400 text-sm mt-1">Gestion des produits chimiques</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-8">
-          <h2 className="text-lg font-semibold text-slate-800 mb-6">Sign in to your account</h2>
+        <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-5 sm:p-8">
+          <h2 className="text-lg font-semibold text-slate-800 mb-6">Connexion à votre compte</h2>
 
           {error && (
             <div className="bg-rose-50 border border-rose-200 rounded-xl px-4 py-3 mb-4 text-sm text-rose-700">
@@ -49,13 +49,13 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="label">Email address</label>
+              <label className="label">Adresse e-mail</label>
               <input className="input" type="email" required autoFocus
                 value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                placeholder="you@university.edu" />
+                placeholder="vous@universite.fr" />
             </div>
             <div>
-              <label className="label">Password</label>
+              <label className="label">Mot de passe</label>
               <div className="relative">
                 <input className="input pr-10" type={showPass ? 'text' : 'password'} required
                   value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
@@ -68,19 +68,19 @@ export default function LoginPage() {
             </div>
             <div className="flex justify-end">
               <Link href="/auth/forgot-password" className="text-xs text-sky-600 hover:text-sky-700 hover:underline">
-                Forgot password?
+                Mot de passe oublié ?
               </Link>
             </div>
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-2.5">
               <LogIn size={16} />
-              {loading ? 'Signing in…' : 'Sign in'}
+              {loading ? 'Connexion…' : 'Se connecter'}
             </button>
           </form>
 
           <p className="text-center text-sm text-slate-500 mt-6">
-            No account yet?{' '}
+            Pas encore de compte ?{' '}
             <Link href="/auth/register" className="text-sky-600 hover:text-sky-700 font-medium hover:underline">
-              Register
+              S&apos;inscrire
             </Link>
           </p>
         </div>
@@ -88,4 +88,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

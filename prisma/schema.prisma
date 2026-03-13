@@ -22,6 +22,7 @@ model User {
   otpExpiresAt DateTime?
 
   viewHistory ProductView[]
+  loans       ProductLoan[]
 }
 
 enum Role {
@@ -47,12 +48,19 @@ model Room {
   @@unique([name, buildingId])
 }
 
+enum CabinetType {
+  CABINET
+  FRIDGE
+  FREEZER
+}
+
 model Cabinet {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   name      String
+  type      CabinetType @default(CABINET)
   roomId    String
-  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  room      Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
   shelves   Shelf[]
 
   @@unique([name, roomId])
@@ -80,6 +88,14 @@ model Product {
   brand           String?
   toxic           Boolean  @default(false)
   cmr             Boolean  @default(false)
+  explosive       Boolean  @default(false)
+  flammable       Boolean  @default(false)
+  oxidizing       Boolean  @default(false)
+  gasPressure     Boolean  @default(false)
+  corrosive       Boolean  @default(false)
+  harmfulIrritant Boolean  @default(false)
+  healthHazard    Boolean  @default(false)
+  envHazard       Boolean  @default(false)
   purityPercent   Float?
   physicalState   String?
   comment         String?  @db.Text
@@ -91,6 +107,7 @@ model Product {
   updatedAt       DateTime @updatedAt
 
   viewHistory ProductView[]
+  loans       ProductLoan[]
 }
 
 model ProductView {
@@ -98,6 +115,17 @@ model ProductView {
   userId    String
   productId String
   viewedAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductLoan {
+  id         String    @id @default(cuid())
+  userId     String
+  productId  String
+  takenAt    DateTime  @default(now())
+  returnedAt DateTime?
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)

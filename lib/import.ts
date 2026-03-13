@@ -33,10 +33,10 @@ export async function importXlsFile(buffer: Buffer): Promise<{ imported: number;
     const rowNum = i + 2
 
     try {
-      const buildingName = String(row['Bâtiment'] || row['Batiment'] || '').trim()
-      const roomName = String(row['Salle'] || '').trim()
-      const cabinetName = String(row['Armoire'] || '').trim()
-      const shelfName = String(row['Étagère'] || row['Etagere'] || '').trim()
+      const buildingName = String(row['Bâtiment'] || row['Batiment'] || row['batiment'] || '').trim()
+      const roomName = String(row['Salle'] || row['salle'] || '').trim()
+      const cabinetName = String(row['Armoire'] || row['armoire'] || '').trim()
+      const shelfName = String(row['Étagère'] || row['Etagere'] || row['etagere'] || '').trim()
       const productName = String(row['Name'] || row['Nom'] || '').trim()
 
       if (!productName) { errors.push(`Row ${rowNum}: Missing product name`); continue }

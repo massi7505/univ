@@ -32,9 +32,9 @@ export async function sendOtpEmail(email: string, otp: string): Promise<void> {
   })
 
   await transporter.sendMail({
-    from: `"UnivBase" <${smtp.email}>`,
+    from: `"SEISAD" <${smtp.email}>`,
     to: email,
-    subject: 'Your UnivBase Password Reset Code',
+    subject: 'Your SEISAD Password Reset Code',
     html: `
       <div style="font-family: system-ui, sans-serif; max-width: 500px; margin: 0 auto;">
         <h2 style="color: #0284c7;">Password Reset</h2>

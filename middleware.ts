@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 
-const COOKIE_NAME = 'UnivBase_token'
+const COOKIE_NAME = 'SEISAD_token'
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'fallback-secret-change-me'
 )

@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { prisma } from './prisma'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me'
-const COOKIE_NAME = 'UnivBase_token'
+const COOKIE_NAME = 'SEISAD_token'
 
 export interface JWTPayload {
   userId: string

@@ -28,8 +28,8 @@ export default function StudentHistoryPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-800">My History</h1>
-        <p className="text-slate-500 text-sm mt-0.5">Products you've consulted recently</p>
+        <h1 className="text-2xl font-bold text-slate-800">Mon historique</h1>
+        <p className="text-slate-500 text-sm mt-0.5">Produits consultés récemment</p>
       </div>
 
       {loading && (
@@ -41,8 +41,8 @@ export default function StudentHistoryPage() {
       {!loading && history.length === 0 && (
         <div className="text-center py-16 text-slate-400">
           <Clock size={40} className="mx-auto mb-3 opacity-30" />
-          <p className="font-medium text-slate-600 mb-1">No history yet</p>
-          <p className="text-sm">Products you view will appear here</p>
+          <p className="font-medium text-slate-600 mb-1">Aucun historique</p>
+          <p className="text-sm">Les produits consultés apparaîtront ici</p>
         </div>
       )}
 
@@ -71,4 +71,3 @@ export default function StudentHistoryPage() {
     </div>
   )
 }
-

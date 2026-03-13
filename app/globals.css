@@ -11,11 +11,25 @@
 
 * { box-sizing: border-box; }
 
+html {
+  /* Empêche le zoom automatique sur les inputs iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   font-family: var(--font-sans);
   background: #f8fafc;
   color: #0f172a;
   -webkit-font-smoothing: antialiased;
+  /* Meilleur scroll sur mobile */
+  overflow-x: hidden;
+}
+
+/* Touch targets minimum 44px sur mobile */
+@media (max-width: 768px) {
+  button, a, [role="button"] {
+    min-height: 36px;
+  }
 }
 
 @layer components {
@@ -46,9 +60,12 @@ body {
   .badge {
     @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
   }
-  .badge-green { @apply badge bg-emerald-100 text-emerald-700; }
-  .badge-red   { @apply badge bg-rose-100 text-rose-700; }
-  .badge-sky   { @apply badge bg-sky-100 text-sky-700; }
-  .badge-amber { @apply badge bg-amber-100 text-amber-700; }
-  .badge-slate { @apply badge bg-slate-100 text-slate-600; }
+  .badge-green  { @apply badge bg-emerald-100 text-emerald-700; }
+  .badge-red    { @apply badge bg-rose-100 text-rose-700; }
+  .badge-sky    { @apply badge bg-sky-100 text-sky-700; }
+  .badge-amber  { @apply badge bg-amber-100 text-amber-700; }
+  .badge-slate  { @apply badge bg-slate-100 text-slate-600; }
+  .badge-orange { @apply badge bg-orange-100 text-orange-700; }
+  .badge-purple { @apply badge bg-purple-100 text-purple-700; }
+  .badge-teal   { @apply badge bg-teal-100 text-teal-700; }
 }
