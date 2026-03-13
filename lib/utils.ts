@@ -26,3 +26,4 @@ export function parsePackaging(str: string | null | undefined): { value: number 
   if (m) return { value: parseFloat(m[1].replace(',', '.')), unit: m[2].trim() || null }
   return { value: null, unit: null }
 }
+

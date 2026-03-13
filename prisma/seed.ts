@@ -9,12 +9,12 @@ async function main() {
   // Create admin user
   const adminPassword = await bcrypt.hash('admin123', 12)
   const admin = await prisma.user.upsert({
-    where: { email: 'admin@chemtrack.local' },
+    where: { email: 'admin@UnivBase.local' },
     create: {
-      email: 'admin@chemtrack.local',
+      email: 'admin@UnivBase.local',
       password: adminPassword,
       firstName: 'Admin',
-      lastName: 'ChemTrack',
+      lastName: 'UnivBase',
       role: 'ADMIN',
       active: true,
     },
@@ -25,9 +25,9 @@ async function main() {
   // Create demo student
   const studentPassword = await bcrypt.hash('student123', 12)
   const student = await prisma.user.upsert({
-    where: { email: 'student@chemtrack.local' },
+    where: { email: 'student@UnivBase.local' },
     create: {
-      email: 'student@chemtrack.local',
+      email: 'student@UnivBase.local',
       password: studentPassword,
       firstName: 'Marie',
       lastName: 'Curie',
@@ -84,10 +84,11 @@ async function main() {
   console.log('✅ Default config set')
 
   console.log('\n🎉 Seed complete!')
-  console.log('   Admin:   admin@chemtrack.local / admin123')
-  console.log('   Student: student@chemtrack.local / student123')
+  console.log('   Admin:   admin@UnivBase.local / admin123')
+  console.log('   Student: student@UnivBase.local / student123')
 }
 
 main()
   .catch(e => { console.error(e); process.exit(1) })
   .finally(() => prisma.$disconnect())
+

@@ -6,3 +6,4 @@ export async function POST() {
   res.cookies.set(COOKIE_NAME, '', { maxAge: 0, path: '/' })
   return res
 }
+

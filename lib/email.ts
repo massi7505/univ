@@ -32,9 +32,9 @@ export async function sendOtpEmail(email: string, otp: string): Promise<void> {
   })
 
   await transporter.sendMail({
-    from: `"ChemTrack" <${smtp.email}>`,
+    from: `"UnivBase" <${smtp.email}>`,
     to: email,
-    subject: 'Your ChemTrack Password Reset Code',
+    subject: 'Your UnivBase Password Reset Code',
     html: `
       <div style="font-family: system-ui, sans-serif; max-width: 500px; margin: 0 auto;">
         <h2 style="color: #0284c7;">Password Reset</h2>
@@ -61,3 +61,4 @@ export async function generateOtp(userId: string): Promise<string> {
 
   return otp
 }
+

@@ -33,3 +33,4 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ history, total, pages: Math.ceil(total / limit) })
 }
+

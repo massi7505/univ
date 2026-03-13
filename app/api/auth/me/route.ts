@@ -13,3 +13,4 @@ export async function GET() {
   if (!user || !user.active) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   return NextResponse.json({ user })
 }
+

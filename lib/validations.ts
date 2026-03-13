@@ -82,3 +82,4 @@ export const SmtpConfigSchema = z.object({
 export const OtpConfigSchema = z.object({
   otp_expiry_minutes: z.string(),
 })
+

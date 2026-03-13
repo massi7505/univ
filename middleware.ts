@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { jwtVerify } from 'jose'
 
-const COOKIE_NAME = 'chemtrack_token'
+const COOKIE_NAME = 'UnivBase_token'
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'chemtrack-jwt-secret-change-in-production-use-32-chars-min'
+  process.env.JWT_SECRET || 'UnivBase-jwt-secret-change-in-production-use-32-chars-min'
 )
 
 async function getSession(req: NextRequest) {

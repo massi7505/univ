@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-500 mb-4 shadow-lg shadow-sky-500/30">
             <FlaskConical size={28} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white">ChemTrack</h1>
+          <h1 className="text-2xl font-bold text-white">UnivBase</h1>
         </div>
 
         <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-8">
@@ -128,3 +128,4 @@ export default function ForgotPasswordPage() {
     </div>
   )
 }
+

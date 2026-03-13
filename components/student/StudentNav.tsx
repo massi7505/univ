@@ -25,7 +25,7 @@ export default function StudentNav() {
           <div className="w-7 h-7 rounded-lg bg-sky-600 flex items-center justify-center">
             <FlaskConical size={15} className="text-white" />
           </div>
-          <span className="font-semibold text-slate-800 text-sm">ChemTrack</span>
+          <span className="font-semibold text-slate-800 text-sm">UnivBase</span>
         </div>
         <nav className="flex items-center gap-1">
           {links.map(link => {
@@ -46,3 +46,4 @@ export default function StudentNav() {
     </header>
   )
 }
+

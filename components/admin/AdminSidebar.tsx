@@ -35,7 +35,7 @@ export default function AdminSidebar() {
             <FlaskConical size={20} className="text-white" />
           </div>
           <div>
-            <div className="text-white font-semibold text-sm">ChemTrack</div>
+            <div className="text-white font-semibold text-sm">UnivBase</div>
             <div className="text-slate-400 text-xs">Admin Panel</div>
           </div>
         </div>
@@ -77,3 +77,4 @@ export default function AdminSidebar() {
     </aside>
   )
 }
+

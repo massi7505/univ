@@ -40,3 +40,4 @@ export default function Pagination({ page, pages, total, onPage }: PaginationPro
     </div>
   )
 }
+

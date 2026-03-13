@@ -66,7 +66,7 @@ export default function ProductsPage() {
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
-    a.href = url; a.download = `chemtrack-export.xlsx`; a.click()
+    a.href = url; a.download = `UnivBase-export.xlsx`; a.click()
     URL.revokeObjectURL(url)
   }
 
@@ -194,3 +194,4 @@ export default function ProductsPage() {
     </div>
   )
 }
+

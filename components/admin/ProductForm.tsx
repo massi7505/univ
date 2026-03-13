@@ -212,3 +212,4 @@ export default function ProductForm({ initial, onSuccess, onCancel }: ProductFor
     </form>
   )
 }
+
