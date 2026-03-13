@@ -3,7 +3,7 @@ import { jwtVerify } from 'jose'
 
 const COOKIE_NAME = 'UnivBase_token'
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'UnivBase-jwt-secret-change-in-production-use-32-chars-min'
+  process.env.JWT_SECRET || 'fallback-secret-change-me'
 )
 
 async function getSession(req: NextRequest) {
