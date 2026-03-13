@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic'
-
 import { prisma } from '@/lib/prisma'
 import { Package, Users, MapPin, History, FlaskConical, AlertTriangle } from 'lucide-react'
 
@@ -44,6 +42,7 @@ export default async function AdminDashboard() {
 
   return (
     <div className="p-8">
+      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center">
@@ -54,6 +53,7 @@ export default async function AdminDashboard() {
         <p className="text-slate-500 text-sm ml-11">Overview of your chemical inventory system</p>
       </div>
 
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         {cards.map(card => (
           <div key={card.label} className="card p-5">
@@ -69,6 +69,7 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
+      {/* Alerts */}
       {(stats.toxicCount > 0 || stats.cmrCount > 0) && (
         <div className="mb-8 flex gap-3 flex-wrap">
           {stats.toxicCount > 0 && (
@@ -86,6 +87,7 @@ export default async function AdminDashboard() {
         </div>
       )}
 
+      {/* Recent Activity */}
       <div className="card">
         <div className="px-6 py-4 border-b border-slate-100">
           <h2 className="font-semibold text-slate-800">Recent Product Views</h2>
@@ -115,3 +117,4 @@ export default async function AdminDashboard() {
     </div>
   )
 }
+
