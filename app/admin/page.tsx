@@ -30,10 +30,10 @@ export default async function AdminDashboard() {
   const stats = await getDashboardStats()
 
   const cards = [
-    { label: 'Total Products', value: stats.products, icon: Package, color: 'sky', sub: `${stats.toxicCount} toxic · ${stats.cmrCount} CMR` },
-    { label: 'Students', value: stats.users, icon: Users, color: 'violet', sub: 'registered accounts' },
-    { label: 'Buildings', value: stats.buildings, icon: MapPin, color: 'emerald', sub: 'storage locations' },
-    { label: 'Total Views', value: stats.views, icon: History, color: 'amber', sub: 'product consultations' },
+    { label: 'Produits', value: stats.products, icon: Package, color: 'sky', sub: `${stats.toxicCount} toxique · ${stats.cmrCount} CMR` },
+    { label: 'Étudiants', value: stats.users, icon: Users, color: 'violet', sub: 'comptes enregistrés' },
+    { label: 'Bâtiments', value: stats.buildings, icon: MapPin, color: 'emerald', sub: 'emplacements de stockage' },
+    { label: 'Consultations', value: stats.views, icon: History, color: 'amber', sub: 'vues de produits' },
   ]
 
   const colorMap: Record<string, string> = {
@@ -53,7 +53,7 @@ export default async function AdminDashboard() {
           </div>
           <h1 className="text-2xl font-bold text-slate-800">Dashboard</h1>
         </div>
-        <p className="text-slate-500 text-sm ml-11">Overview of your chemical inventory system</p>
+        <p className="text-slate-500 text-sm ml-11">Vue d'ensemble de votre inventaire chimique</p>
       </div>
 
       {/* Stat Cards */}
@@ -78,13 +78,13 @@ export default async function AdminDashboard() {
           {stats.toxicCount > 0 && (
             <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 text-sm text-amber-700">
               <AlertTriangle size={15} />
-              <span><strong>{stats.toxicCount}</strong> toxic product{stats.toxicCount > 1 ? 's' : ''} in inventory</span>
+              <span><strong>{stats.toxicCount}</strong> produit{stats.toxicCount > 1 ? 's' : ''} toxique{stats.toxicCount > 1 ? 's' : ''} en inventaire</span>
             </div>
           )}
           {stats.cmrCount > 0 && (
             <div className="flex items-center gap-2 bg-rose-50 border border-rose-200 rounded-xl px-4 py-2.5 text-sm text-rose-700">
               <AlertTriangle size={15} />
-              <span><strong>{stats.cmrCount}</strong> CMR product{stats.cmrCount > 1 ? 's' : ''} requiring special handling</span>
+              <span><strong>{stats.cmrCount}</strong> produit{stats.cmrCount > 1 ? 's' : ''} CMR nécessitant une manipulation spéciale</span>
             </div>
           )}
         </div>
@@ -93,11 +93,11 @@ export default async function AdminDashboard() {
       {/* Recent Activity */}
       <div className="card">
         <div className="px-6 py-4 border-b border-slate-100">
-          <h2 className="font-semibold text-slate-800">Recent Product Views</h2>
+          <h2 className="font-semibold text-slate-800">Dernières consultations</h2>
         </div>
         <div className="divide-y divide-slate-50">
           {stats.recentViews.length === 0 && (
-            <div className="px-6 py-8 text-center text-slate-400 text-sm">No activity yet</div>
+            <div className="px-6 py-8 text-center text-slate-400 text-sm">Aucune activité pour le moment</div>
           )}
           {stats.recentViews.map((view: any, i: number) => (
             <div key={i} className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50 transition">
