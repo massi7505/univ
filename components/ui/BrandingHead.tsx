@@ -10,13 +10,14 @@ export default function BrandingHead() {
           document.title = `${data.app_name} — Gestion des produits chimiques`
         }
         if (data.favicon_url) {
-          let link = document.querySelector<HTMLLinkElement>("link[rel='icon']")
-          if (!link) {
-            link = document.createElement('link')
-            link.rel = 'icon'
-            document.head.appendChild(link)
-          }
-          link.href = data.favicon_url
+          // Supprime tous les liens favicon existants
+          document.querySelectorAll("link[rel*='icon']").forEach(el => el.remove())
+          // Crée un nouveau lien favicon propre
+          const link = document.createElement('link')
+          link.id = 'app-favicon'
+          link.rel = 'icon'
+          link.href = data.favicon_url + '?v=' + Date.now() // cache-bust
+          document.head.appendChild(link)
         }
       })
       .catch(() => {})
