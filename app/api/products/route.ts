@@ -29,6 +29,13 @@ export async function GET(req: NextRequest) {
   const shelfId = searchParams.get('shelfId')
   const skip = (page - 1) * limit
 
+  const physicalState = searchParams.get('physicalState') || ''
+  const toxic = searchParams.get('toxic')
+  const cmr = searchParams.get('cmr')
+  const flammable = searchParams.get('flammable')
+  const corrosive = searchParams.get('corrosive')
+  const building = searchParams.get('building') || ''
+
   const where: Record<string, unknown> = {}
   if (search) {
     where.OR = [
@@ -39,6 +46,16 @@ export async function GET(req: NextRequest) {
   }
   if (active !== null && active !== '') where.active = active === 'true'
   if (shelfId) where.shelfId = shelfId
+  if (physicalState) where.physicalState = physicalState
+  if (toxic === 'true') where.toxic = true
+  if (cmr === 'true') where.cmr = true
+  if (flammable === 'true') where.flammable = true
+  if (corrosive === 'true') where.corrosive = true
+  if (building) {
+    where.shelf = {
+      cabinet: { room: { building: { name: building } } }
+    }
+  }
 
   const [products, total] = await Promise.all([
     prisma.product.findMany({
