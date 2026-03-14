@@ -40,10 +40,10 @@ export default function SettingsPage() {
     fd.append('file', file)
     fd.append('slot', slot)
     const res = await fetch('/api/upload', { method: 'POST', body: fd })
-    const data = await res.json()
+    const data = await res.json().catch(() => ({}))
     if (res.ok) {
       setBranding(b => ({ ...b, [slot === 'logo' ? 'logo_url' : 'favicon_url']: data.url }))
-      toast(`${slot === 'logo' ? 'Logo' : 'Favicon'} uploadé`)
+      toast(`${slot === 'logo' ? 'Logo' : 'Favicon'} uploadé et enregistré`)
     } else {
       toast(data.error || "Échec de l'upload", 'error')
     }
