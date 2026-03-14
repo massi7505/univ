@@ -323,9 +323,6 @@ export default function StudentSearchPage() {
                     {p.physicalState && <span className="badge badge-slate">{physicalStatesFr[p.physicalState] || p.physicalState}</span>}
                     {p.packagingValue && <span>{p.packagingValue}{p.packagingUnit}</span>}
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">
-                    📍 {p.shelf.cabinet.room.building.name} · {p.shelf.cabinet.room.name} · {p.shelf.cabinet.name}
-                  </div>
                 </div>
                 <ChevronRight size={16} className="text-slate-300 group-hover:text-violet-500 transition flex-shrink-0 mt-1" />
               </div>
