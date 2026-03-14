@@ -16,7 +16,7 @@ export default function SettingsPage() {
   const faviconInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    fetch('/api/config').then(r => r.json()).then(data => {
+    fetch('/api/config').then(r => r.ok ? r.json() : Promise.reject(r)).then(data => {
       setBranding({
         app_name: data.app_name || '',
         logo_url: data.logo_url || '',
@@ -31,7 +31,7 @@ export default function SettingsPage() {
       })
       setOtp({ otp_expiry_minutes: data.otp_expiry_minutes || '10' })
       setLoading(false)
-    })
+    }).catch(() => setLoading(false))
   }, [])
 
   async function handleUpload(file: File, slot: 'logo' | 'favicon') {

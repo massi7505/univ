@@ -37,7 +37,7 @@ export default function StudentSearchPage() {
   }, [])
 
   useEffect(() => {
-    fetch('/api/loans').then(r => r.json()).then(data => {
+    fetch('/api/loans').then(r => r.ok ? r.json() : Promise.reject(r)).then(data => {
       setLoansCount(Array.isArray(data) ? data.length : 0)
     }).catch(() => {})
   }, [])

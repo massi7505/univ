@@ -63,7 +63,7 @@ export default function ProductForm({ initial, onSuccess, onCancel }: ProductFor
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch('/api/locations').then(r => r.json()).then(setLocations)
+    fetch('/api/locations').then(r => r.ok ? r.json() : Promise.reject(r)).then(setLocations).catch(() => {})
   }, [])
 
   useEffect(() => {

@@ -19,7 +19,7 @@ export default function StudentNav() {
   }, [pathname])
 
   useEffect(() => {
-    fetch('/api/branding').then(r => r.json()).then(setBranding).catch(() => {})
+    fetch('/api/branding').then(r => r.ok ? r.json() : Promise.reject(r)).then(setBranding).catch(() => {})
   }, [])
 
   async function handleLogout() {

@@ -30,7 +30,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
   const [branding, setBranding] = useState<{ app_name?: string; logo_url?: string }>({})
 
   useEffect(() => {
-    fetch('/api/branding').then(r => r.json()).then(setBranding).catch(() => {})
+    fetch('/api/branding').then(r => r.ok ? r.json() : Promise.reject(r)).then(setBranding).catch(() => {})
   }, [])
 
   async function handleLogout() {
