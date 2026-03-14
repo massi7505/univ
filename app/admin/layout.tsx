@@ -24,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Menu size={20} className="text-slate-600" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-sky-500 flex items-center justify-center">
+              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
                 <FlaskConical size={13} className="text-white" />
               </div>
               <span className="font-semibold text-slate-800 text-sm">SEISAD</span>

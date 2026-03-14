@@ -26,11 +26,11 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-violet-900 via-indigo-900 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-500 mb-4 shadow-lg shadow-sky-500/30">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-400 to-indigo-500 mb-4 shadow-lg shadow-violet-500/40">
             <FlaskConical size={28} className="text-white" />
           </div>
           <h1 className="text-2xl font-bold text-white">SEISAD</h1>
@@ -67,7 +67,7 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="flex justify-end">
-              <Link href="/auth/forgot-password" className="text-xs text-sky-600 hover:text-sky-700 hover:underline">
+              <Link href="/auth/forgot-password" className="text-xs text-violet-600 hover:text-violet-700 hover:underline">
                 Mot de passe oublié ?
               </Link>
             </div>
@@ -79,7 +79,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-slate-500 mt-6">
             Pas encore de compte ?{' '}
-            <Link href="/auth/register" className="text-sky-600 hover:text-sky-700 font-medium hover:underline">
+            <Link href="/auth/register" className="text-violet-600 hover:text-violet-700 font-medium hover:underline">
               S&apos;inscrire
             </Link>
           </p>

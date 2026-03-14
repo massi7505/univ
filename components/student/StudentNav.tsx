@@ -9,6 +9,7 @@ export default function StudentNav() {
   const pathname = usePathname()
   const router = useRouter()
   const [loansCount, setLoansCount] = useState(0)
+  const [branding, setBranding] = useState<{ app_name?: string; logo_url?: string }>({})
 
   useEffect(() => {
     fetch('/api/loans')
@@ -16,6 +17,10 @@ export default function StudentNav() {
       .then(data => setLoansCount(Array.isArray(data) ? data.length : 0))
       .catch(() => {})
   }, [pathname])
+
+  useEffect(() => {
+    fetch('/api/branding').then(r => r.json()).then(setBranding).catch(() => {})
+  }, [])
 
   async function handleLogout() {
     try { await fetch('/api/auth/logout', { method: 'POST' }) } catch {}
@@ -32,17 +37,19 @@ export default function StudentNav() {
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-sky-600 flex items-center justify-center">
-            <FlaskConical size={15} className="text-white" />
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center overflow-hidden flex-shrink-0">
+            {branding.logo_url
+              ? <img src={branding.logo_url} alt="logo" className="w-full h-full object-cover" />
+              : <FlaskConical size={15} className="text-white" />}
           </div>
-          <span className="font-semibold text-slate-800 text-sm">SEISAD</span>
+          <span className="font-semibold text-slate-800 text-sm">{branding.app_name || 'SEISAD'}</span>
         </div>
         <nav className="flex items-center gap-1">
           {links.map(link => {
             const active = link.exact ? pathname === link.href : pathname.startsWith(link.href)
             return (
               <Link key={link.href} href={link.href}
-                className={cn('flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition relative', active ? 'bg-sky-50 text-sky-700' : 'text-slate-600 hover:bg-slate-100')}>
+                className={cn('flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition relative', active ? 'bg-violet-50 text-violet-700' : 'text-slate-600 hover:bg-slate-100')}>
                 <link.icon size={15} />
                 <span className="hidden sm:inline">{link.label}</span>
                 {link.badge != null && link.badge > 0 && (
